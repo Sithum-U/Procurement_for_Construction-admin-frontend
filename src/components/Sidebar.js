@@ -14,13 +14,13 @@ const Sidebar = () => {
               <li className="nav-item">
                 <Link className="nav-link" to="/products">
                   <i className="fa fa-cube menu-icon" />
-                  <span className="menu-title">Products</span>
+                  <span className="menu-title">Materials</span>
                 </Link>
               </li>
               <li className="nav-item">
-                <Link className="nav-link" to="/categories">
+                <Link className="nav-link" to="/approval">
                   <i className="fa fa-list menu-icon" />
-                  <span className="menu-title">Categories</span>
+                  <span className="menu-title">Approval</span>
                 </Link>
               </li>
               <li className="nav-item">
@@ -29,12 +29,12 @@ const Sidebar = () => {
                   <span className="menu-title">Orders</span>
                 </Link>
               </li>
-              <li className="nav-item">
+              {/* <li className="nav-item">
                 <Link className="nav-link" to="/users">
                   <i className="fa fa-user menu-icon" />
                   <span className="menu-title">Users</span>
                 </Link>
-              </li>
+              </li> */}
             </ul>
           </nav>
 			</>

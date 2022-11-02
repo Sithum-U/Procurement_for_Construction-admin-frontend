@@ -24,7 +24,7 @@ const Order = (props) => {
 		    <tr>
               <td>{customer_name}</td>
               <td>{email}</td>
-              <td>$ {totalPrice/100}</td>
+              <td>Rs. {totalPrice/100}</td>
               <td>{isPaid ? "Yes" : "No" }</td>
               <td>{localOrderDate}</td>
               <td>{isDelivered ? "Delivered" : "Not Delivered"}</td>

@@ -156,9 +156,9 @@ const EditOrder = ({match}) => {
 																	         <div className="info">{item.name}</div>
 																	      </div>
 																	   </td>
-																	   <td>${item.price}</td>
+																	   <td>Rs. {item.price}</td>
 																	   <td>{item.qty}</td>
-																	   <td className="text-end">${item.price * item.qty}</td>
+																	   <td className="text-end">Rs. {item.price * item.qty}</td>
 																    </tr>
 													              ))}
 																    <tr>
@@ -166,19 +166,19 @@ const EditOrder = ({match}) => {
 																		   <article className="float-right">
 																		      <dl className="dlist">
 																		         <dt>Subtotal:</dt>
-																		         <dd>${(order.itemsPrice).toFixed(2)}</dd>
+																		         <dd>Rs. {(order.itemsPrice).toFixed(2)}</dd>
 																		      </dl>
 																		      <dl className="dlist">
 																		         <dt>Shipping cost:</dt>
-																		         <dd>${(order.shippingPrice).toFixed(2)}</dd>
+																		         <dd>Rs. {(order.shippingPrice).toFixed(2)}</dd>
 																		      </dl>
 																		      <dl className="dlist">
 																		         <dt>Tax:</dt>
-																		         <dd>${(order.taxPrice).toFixed(2)}</dd>
+																		         <dd>Rs. {(order.taxPrice).toFixed(2)}</dd>
 																		      </dl>
 																		      <dl className="dlist">
 																		         <dt>Grand total:</dt>
-																		         <dd><b className="h5">${((order.totalPrice)/100).toFixed(2)}</b></dd>
+																		         <dd><b className="h5">Rs. {((order.totalPrice)/100).toFixed(2)}</b></dd>
 																		      </dl>		      
 																		   </article>
 																		</td>

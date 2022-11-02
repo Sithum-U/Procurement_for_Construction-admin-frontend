@@ -15,6 +15,8 @@ import PrivateRouter from "./PrivateRouter";
 import Toast from "./components/LoadingError/Toast";
 import './App.css';
 import "react-toastify/dist/ReactToastify.css";
+import Approval from "./components/pages/order/Approval";
+import View from "./components/pages/order/view-approve";
 
 function App() {
   return (
@@ -33,6 +35,8 @@ function App() {
           <PrivateRouter path="/orders" component={Orders} />
           <PrivateRouter path="/order/edit/:id" component={EditOrder} />
           <PrivateRouter path="/users" component={Users} />
+          <PrivateRouter path="/approval" component={Approval} />
+          <PrivateRouter path="/view" component={View} />
           <PrivateRouter path="*" component={NotFound} />
         </Switch>
       </Router>

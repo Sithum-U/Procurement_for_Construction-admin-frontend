@@ -77,7 +77,7 @@ const Products = () => {
 		                <div className="col-lg-12 grid-margin stretch-card">
 		                  <div className="card">
 		                    <div className="card-body">
-		                      <h4 className="card-title">Products</h4>
+		                      <h4 className="card-title">Materials</h4>
 		                      <div className="row">
 	                              <div className="col-md-12">
 	                                 <div className="form-group row">	                                 
@@ -94,7 +94,7 @@ const Products = () => {
 	                                    </div>
 	                                    <div className="col-sm-2">
 	                                    	<Link to="/product/add" className="btn btn-outline-primary btn-fw float-right">
-									            Add Product
+									            Add Materials
 									        </Link>									        
 	                                    </div>
 	                                    <div className="col-sm-1">
