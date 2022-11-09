@@ -7,7 +7,7 @@ import Sidebar from "../../Sidebar";
 import Footer from "../../Footer";
 import {
   getOrderDetails,
-  deliverOrder,
+  approveOrder,
 } from "../../../redux/actions/OrderActions";
 import { ORDER_UPDATE_RESET } from "../../../redux/constants/OrderConstants";
 import { toast } from "react-toastify";
@@ -37,9 +37,11 @@ const EditApproval = ({ match }) => {
   }, [order, dispatch, orderId]);
 
   const approveHandler = (e) => {
+    // e.preventDefault();
     e.preventDefault();
-    const status = !order.isApproved ? "Approved" : "Not";
-    setIsApproved(status);
+    dispatch(approveOrder(orderId));
+    // const status = !order.isApproved ? "Approved" : "Not Approved";
+    // setIsApproved(status);
   };
   console.log(order);
 
@@ -79,10 +81,10 @@ const EditApproval = ({ match }) => {
                               <small>Order ID: {order._id}</small>
                             </div>
                             <div className="float-right">
-                              {order.isDelivered ? (
+                              {order.isApproved ? (
                                 <span className="btn btn-success me-2 cursor-auto">
                                   Approved on{" "}
-                                  {moment(order.deliveredAt).format("llll")}
+                                  {moment(order.approvedAt).format("llll")}
                                 </span>
                               ) : (
                                 <>
@@ -144,13 +146,13 @@ const EditApproval = ({ match }) => {
                                         </p> */}
                                         <p className="mb-1">
                                           Status:{" "}
-                                          {isApproved ? (
+                                          {order.isApproved ? (
                                             <span className="badge badge-pill badge-success">
                                               Approved
                                             </span>
                                           ) : (
                                             <span className="badge badge-pill badge-danger">
-                                              NotApproved
+                                              Not Approved
                                             </span>
                                           )}
                                         </p>
@@ -162,7 +164,7 @@ const EditApproval = ({ match }) => {
                             </div>
                             <div className="row mt-4">
                               {(order.orderItems && order.orderItems.length) >
-                              0 ? (
+                                0 ? (
                                 <div className="col-sm-12">
                                   <table className="table">
                                     <thead className="thead-light">

@@ -10,12 +10,16 @@ import {
   ORDER_LIST_SUCCESS,
   ORDER_DELETE_REQUEST,
   ORDER_DELETE_SUCCESS,
-  ORDER_DELETE_FAIL
+  ORDER_DELETE_FAIL,
+  ORDER_APPROVED_REQUEST,
+  ORDER_APPROVED_FAIL,
+  ORDER_APPROVED_SUCCESS,
+  ORDER_APPROVED_RESET
 } from "../constants/OrderConstants";
 import { logout } from "./userActions";
 import axios from "axios";
 import { toast } from "react-toastify";
-import {ToastObjects} from "./toastObject";
+import { ToastObjects } from "./toastObject";
 
 export const listOrders = () => async (dispatch, getState) => {
   try {
@@ -72,14 +76,14 @@ export const deliverOrder = (orderId) => async (dispatch, getState) => {
     const responseData = response.data;
 
     if (!responseData.success) {
-        toast.error(responseData.message, ToastObjects);  
-      }else{
-        toast.success(responseData.message, ToastObjects);  
-        dispatch({ type: ORDER_DELIVERED_SUCCESS});
-        dispatch({ type: ORDER_DETAILS_SUCCESS, payload: responseData });
+      toast.error(responseData.message, ToastObjects);
+    } else {
+      toast.success(responseData.message, ToastObjects);
+      dispatch({ type: ORDER_DELIVERED_SUCCESS });
+      dispatch({ type: ORDER_DETAILS_SUCCESS, payload: responseData });
     }
-    
-    
+
+
 
   } catch (error) {
     const message =
@@ -91,6 +95,41 @@ export const deliverOrder = (orderId) => async (dispatch, getState) => {
     }
     dispatch({
       type: ORDER_DELIVERED_FAIL,
+      payload: message,
+    });
+  }
+};
+
+export const approveOrder = (orderId) => async (dispatch, getState) => {
+  try {
+    dispatch({ type: ORDER_APPROVED_REQUEST });
+
+    const response = await axios.put(
+      `/orders/approved/${orderId}`
+    );
+
+    const responseData = response.data;
+
+    if (!responseData.success) {
+      toast.error(responseData.message, ToastObjects);
+    } else {
+      toast.success(responseData.message, ToastObjects);
+      dispatch({ type: ORDER_APPROVED_SUCCESS });
+      dispatch({ type: ORDER_DETAILS_SUCCESS, payload: responseData });
+    }
+
+
+
+  } catch (error) {
+    const message =
+      error.response && error.response.data.message
+        ? error.response.data.message
+        : error.message;
+    if (message === "Not authorized, token failed") {
+      dispatch(logout());
+    }
+    dispatch({
+      type: ORDER_APPROVED_FAIL,
       payload: message,
     });
   }
@@ -108,10 +147,10 @@ export const deleteOrder = (id) => async (dispatch, getState) => {
     const responseData = response.data;
 
     if (!responseData.success) {
-        toast.error(responseData.message, ToastObjects);  
-      }else{
-        toast.success(responseData.message, ToastObjects);  
-        dispatch({ type: ORDER_DELETE_SUCCESS });
+      toast.error(responseData.message, ToastObjects);
+    } else {
+      toast.success(responseData.message, ToastObjects);
+      dispatch({ type: ORDER_DELETE_SUCCESS });
     }
   } catch (error) {
     const message =
@@ -123,7 +162,7 @@ export const deleteOrder = (id) => async (dispatch, getState) => {
     }
 
     toast.error(message, ToastObjects);
-    
+
     dispatch({
       type: ORDER_DELETE_FAIL,
       payload: message,
