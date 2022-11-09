@@ -14,9 +14,10 @@ import { toast } from "react-toastify";
 import { ToastObjects } from "../../../redux/actions/toastObject";
 import "./order.css";
 
-const EditOrder = ({ match }) => {
+const EditApproval = ({ match }) => {
   const orderId = match.params.id;
   const [submitted, setSubmitted] = useState(false);
+  const [isApproved, setIsApproved] = useState(false);
   const dispatch = useDispatch();
 
   const {
@@ -35,10 +36,12 @@ const EditOrder = ({ match }) => {
     }
   }, [order, dispatch, orderId]);
 
-  const deliverHandler = (e) => {
+  const approveHandler = (e) => {
     e.preventDefault();
-    dispatch(deliverOrder(orderId));
+    const status = !order.isApproved ? "Approved" : "Not";
+    setIsApproved(status);
   };
+  console.log(order);
 
   return (
     <>
@@ -53,12 +56,15 @@ const EditOrder = ({ match }) => {
                   <div className="card">
                     <div className="card-body">
                       <div className="clearfix mb-4">
-                        <h4 className="float-left">Order Details</h4>
+                        <h4 className="float-left">
+                          {" "}
+                          <h7>Orders greater than Rs.100,000 /=</h7>
+                        </h4>
                         <Link
-                          to="/orders"
+                          to="/approval"
                           className="btn btn-outline-primary float-right"
                         >
-                          Back to Orders
+                          Back to Approvals
                         </Link>
                       </div>
                       <form className="form-sample clear-fix">
@@ -75,7 +81,7 @@ const EditOrder = ({ match }) => {
                             <div className="float-right">
                               {order.isDelivered ? (
                                 <span className="btn btn-success me-2 cursor-auto">
-                                  Delivered on{" "}
+                                  Approved on{" "}
                                   {moment(order.deliveredAt).format("llll")}
                                 </span>
                               ) : (
@@ -84,10 +90,10 @@ const EditOrder = ({ match }) => {
                                     ""
                                   ) : (
                                     <button
-                                      className="btn btn-primary me-2"
-                                      onClick={deliverHandler}
+                                      className="btn btn-danger me-2"
+                                      onClick={approveHandler}
                                     >
-                                      Mark as Delivered
+                                      Mark as Approved
                                     </button>
                                   )}
                                 </>
@@ -97,7 +103,7 @@ const EditOrder = ({ match }) => {
 
                           <div className="card-body">
                             <div className="row">
-                              <div className="col-sm-4">
+                              <div className="col-sm-5">
                                 <div className="card">
                                   <div className="card-body main-lable">
                                     <article className="icontext align-items-start">
@@ -127,63 +133,26 @@ const EditOrder = ({ match }) => {
                                   <div className="card-body main-lable">
                                     <article className="icontext align-items-start">
                                       <span className="icon icon-sm rounded-circle alert-success">
-                                        <i className="text-success fa fa-truck" />
+                                        <i className="text-success fa fa-bell " />
                                       </span>
                                       <div className="text">
                                         <h5 className="card-title mb-2">
-                                          Order info
+                                          Status Approval
                                         </h5>
-                                        <p className="mb-1">
+                                        {/* <p className="mb-1">
                                           Pay method: {order.paymentMethod}
-                                        </p>
+                                        </p> */}
                                         <p className="mb-1">
                                           Status:{" "}
-                                          {order.isPaid ? (
+                                          {isApproved ? (
                                             <span className="badge badge-pill badge-success">
-                                              Paid
+                                              Approved
                                             </span>
                                           ) : (
                                             <span className="badge badge-pill badge-danger">
-                                              Not Paid
+                                              NotApproved
                                             </span>
                                           )}
-                                        </p>
-                                      </div>
-                                    </article>
-                                  </div>
-                                </div>
-                              </div>
-                              <div className="col-sm-4">
-                                <div className="card">
-                                  <div className="card-body main-lable">
-                                    <article className="icontext align-items-start">
-                                      <span className="icon icon-sm rounded-circle alert-success">
-                                        <i className="text-success fa fa-map-marker" />
-                                      </span>
-                                      <div className="text">
-                                        <h5 className="card-title mb-2">
-                                          Deliver to
-                                        </h5>
-                                        <p className="mb-1 card-text">
-                                          {order.shippingAddress &&
-                                            order.shippingAddress.street1}
-                                          <br />
-                                          {order.shippingAddress &&
-                                          order.shippingAddress.street2
-                                            ? order.shippingAddress.street2 +
-                                              <br />
-                                            : ""}
-                                          {order.shippingAddress &&
-                                            order.shippingAddress.city}
-                                          ,{" "}
-                                          {order.shippingAddress &&
-                                            order.shippingAddress.state}{" "}
-                                          {order.shippingAddress &&
-                                            order.shippingAddress.zip}
-                                          <br />
-                                          {order.shippingAddress &&
-                                            order.shippingAddress.country}
-                                          <br />
                                         </p>
                                       </div>
                                     </article>
@@ -234,33 +203,11 @@ const EditOrder = ({ match }) => {
                                         <td colSpan="4">
                                           <article className="float-right">
                                             <dl className="dlist">
-                                              <dt>Subtotal:</dt>
-                                              <dd>
-                                                Rs.{" "}
-                                                {order.itemsPrice.toFixed(2)}
-                                              </dd>
-                                            </dl>
-                                            <dl className="dlist">
-                                              <dt>Shipping cost:</dt>
-                                              <dd>
-                                                Rs.{" "}
-                                                {order.shippingPrice.toFixed(2)}
-                                              </dd>
-                                            </dl>
-                                            <dl className="dlist">
-                                              <dt>Tax:</dt>
-                                              <dd>
-                                                Rs. {order.taxPrice.toFixed(2)}
-                                              </dd>
-                                            </dl>
-                                            <dl className="dlist">
-                                              <dt>Grand total:</dt>
+                                              <dt>Total:</dt>
                                               <dd>
                                                 <b className="h5">
                                                   Rs.{" "}
-                                                  {(
-                                                    order.totalPrice / 100
-                                                  ).toFixed(2)}
+                                                  {order.itemsPrice.toFixed(2)}
                                                 </b>
                                               </dd>
                                             </dl>
@@ -292,4 +239,4 @@ const EditOrder = ({ match }) => {
   );
 };
 
-export default EditOrder;
+export default EditApproval;

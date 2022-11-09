@@ -15,6 +15,7 @@ const Order = (props) => {
     image,
     totalPrice,
     isPaid,
+    isApproved,
     orderItems,
     createdAt,
     isDelivered,
@@ -35,16 +36,20 @@ const Order = (props) => {
   return (
     <>
       <tr>
-        <td>{customer_name}</td>
-        <td>{email}</td>
-        <td>Rs. {totalPrice / 100}</td>
-        <td>{isPaid ? "Yes" : "No"}</td>
-        {/* <td>{_id}</td> */}
+        {/* <td>{customer_name}</td>
+        <td>{email}</td> */}
+        <td>{_id}</td>
         <td>{localOrderDate}</td>
-        <td>{isDelivered ? "Delivered" : "Not Delivered"}</td>
+        <td>Rs. {totalPrice / 100}</td>
+        {/* <td>{isPaid ? "Yes" : "No" }</td> */}
+        <td>{isApproved ? "Approved" : "NotApproved"}</td>
         <td>
-          <Link to={`/order/edit/${_id}`} className="text-success" title="View">
-            <i className="fa fa-eye"></i>
+          <Link
+            to={`/approval/edit/${_id}`}
+            className="text-success"
+            title="View"
+          >
+            <i className="fa fa-edit"></i>
           </Link>
           <Link to="#" title="Delete" onClick={() => deletehandler(_id)}>
             <i className="fa fa-trash"></i>

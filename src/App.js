@@ -8,20 +8,21 @@ import EditProduct from "./components/pages/product/EditProduct";
 import Categories from "./components/pages/category/Categories";
 import Orders from "./components/pages/order/Orders";
 import EditOrder from "./components/pages/order/EditOrder";
+import EditApproval from "./components/pages/approval/EditApproval";
 import Users from "./components/pages/user/Users";
 import NotFound from "./components/pages/NotFound";
 import AuthRoute from "./AuthRoute";
 import PrivateRouter from "./PrivateRouter";
 import Toast from "./components/LoadingError/Toast";
-import './App.css';
+import "./App.css";
 import "react-toastify/dist/ReactToastify.css";
-import Approval from "./components/pages/order/Approval";
+import Approval from "./components/pages/approval/Approvals";
 import View from "./components/pages/order/view-approve";
 
 function App() {
   return (
     <>
-      <Toast/>
+      <Toast />
       <Router>
         <Switch>
           <PrivateRouter path="/" component={Dashboard} exact />
@@ -34,6 +35,7 @@ function App() {
           <PrivateRouter path="/categories" component={Categories} />
           <PrivateRouter path="/orders" component={Orders} />
           <PrivateRouter path="/order/edit/:id" component={EditOrder} />
+          <PrivateRouter path="/approval/edit/:id" component={EditApproval} />
           <PrivateRouter path="/users" component={Users} />
           <PrivateRouter path="/approval" component={Approval} />
           <PrivateRouter path="/view" component={View} />
