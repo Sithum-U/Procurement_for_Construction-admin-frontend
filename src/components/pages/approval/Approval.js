@@ -39,7 +39,7 @@ const Order = (props) => {
         {/* <td>{customer_name}</td>
         <td>{email}</td> */}
         <td>{_id}</td>
-        <td>{localOrderDate}</td>
+        {/* <td>{localOrderDate}</td> */}
         <td>Rs. {totalPrice / 100}</td>
         {/* <td>{isPaid ? "Yes" : "No" }</td> */}
         <td>{isApproved ? "Approved" : "NotApproved"}</td>
