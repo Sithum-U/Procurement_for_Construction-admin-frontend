@@ -6,13 +6,14 @@ import Header from "../../Header";
 import Sidebar from "../../Sidebar";
 import Footer from "../../Footer";
 import {
-  getOrderDetails,
-  approveOrder,
-} from "../../../redux/actions/OrderActions";
+  getCartOrderDetails,
+  approveCartOrder,
+} from "../../../redux/actions/CartOrderActions";
 import { ORDER_UPDATE_RESET } from "../../../redux/constants/OrderConstants";
 import { toast } from "react-toastify";
 import { ToastObjects } from "../../../redux/actions/toastObject";
 import "./order.css";
+import axios from "axios";
 
 const EditApproval = ({ match }) => {
   const orderId = match.params.id;
@@ -32,18 +33,25 @@ const EditApproval = ({ match }) => {
 
   useEffect(() => {
     if (order._id !== orderId) {
-      dispatch(getOrderDetails(orderId));
+      dispatch(getCartOrderDetails(orderId));
     }
   }, [order, dispatch, orderId]);
 
   const approveHandler = (e) => {
     // e.preventDefault();
     e.preventDefault();
-    dispatch(approveOrder(orderId));
+    dispatch(approveCartOrder(orderId));
+    window.location.reload(); 
     // const status = !order.isApproved ? "Approved" : "Not Approved";
     // setIsApproved(status);
   };
-  console.log(order);
+  const [approval, setApproval] = useState([]);
+  useEffect(async () => {
+    const responseData = await axios.get(`/cartitems/find/${orderId}`);
+    const data = responseData.data;
+    setApproval(data.data);
+  }, []);
+  console.log(approval);
 
   return (
     <>
@@ -75,29 +83,30 @@ const EditApproval = ({ match }) => {
                             <div className="float-left">
                               <span>
                                 <i className="fa fa-calendar"></i>
-                                <b>{moment(order.createdAt).format("llll")}</b>
+                                {/* <b>{moment(order.createdAt).format("llll")}</b> */}
                               </span>
                               <br />
-                              <small>Order ID: {order._id}</small>
+                              <small>Order ID: {approval._id}</small>
+                            
                             </div>
                             <div className="float-right">
-                              {order.isApproved ? (
+                              {approval.isApproved ? (
                                 <span className="btn btn-success me-2 cursor-auto">
                                   Approved on{" "}
-                                  {moment(order.approvedAt).format("llll")}
+                                  {moment(approval.approvedAt).format("llll")}
                                 </span>
                               ) : (
                                 <>
-                                  {loading ? (
+                                  {/* {loading ? (
                                     ""
-                                  ) : (
+                                  ) : ( */}
                                     <button
                                       className="btn btn-danger me-2"
                                       onClick={approveHandler}
                                     >
                                       Mark as Approved
                                     </button>
-                                  )}
+                                  {/* )} */}
                                 </>
                               )}
                             </div>
@@ -105,7 +114,7 @@ const EditApproval = ({ match }) => {
 
                           <div className="card-body">
                             <div className="row">
-                              <div className="col-sm-5">
+                              {/* <div className="col-sm-5">
                                 <div className="card">
                                   <div className="card-body main-lable">
                                     <article className="icontext align-items-start">
@@ -129,7 +138,7 @@ const EditApproval = ({ match }) => {
                                     </article>
                                   </div>
                                 </div>
-                              </div>
+                              </div> */}
                               <div className="col-sm-4">
                                 <div className="card">
                                   <div className="card-body main-lable">
@@ -146,7 +155,7 @@ const EditApproval = ({ match }) => {
                                         </p> */}
                                         <p className="mb-1">
                                           Status:{" "}
-                                          {order.isApproved ? (
+                                          {approval.isApproved ? (
                                             <span className="badge badge-pill badge-success">
                                               Approved
                                             </span>
@@ -163,7 +172,7 @@ const EditApproval = ({ match }) => {
                               </div>
                             </div>
                             <div className="row mt-4">
-                              {(order.orderItems && order.orderItems.length) >
+                              {(approval.orderItems && approval.orderItems.length) >
                                 0 ? (
                                 <div className="col-sm-12">
                                   <table className="table">
@@ -178,7 +187,7 @@ const EditApproval = ({ match }) => {
                                       </tr>
                                     </thead>
                                     <tbody>
-                                      {order.orderItems.map((item) => (
+                                      {approval.orderItems.map((item) => (
                                         <tr key={item._id}>
                                           <td>
                                             <div className="itemside">
@@ -209,7 +218,7 @@ const EditApproval = ({ match }) => {
                                               <dd>
                                                 <b className="h5">
                                                   Rs.{" "}
-                                                  {order.itemsPrice.toFixed(2)}
+                                                  {approval.totalPrice}
                                                 </b>
                                               </dd>
                                             </dl>

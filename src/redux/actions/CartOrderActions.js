@@ -116,6 +116,7 @@ export const approveCartOrder = (orderId) => async (dispatch, getState) => {
             toast.success(responseData.message, ToastObjects);
             dispatch({ type: CARTORDER_APPROVED_SUCCESS });
             dispatch({ type: CARTORDER_DETAILS_SUCCESS, payload: responseData });
+            localStorage.setItem("cartInfo", JSON.stringify(responseData));
         }
 
 

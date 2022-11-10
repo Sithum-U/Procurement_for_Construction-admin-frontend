@@ -65,6 +65,21 @@ const Products = ({ match }) => {
     myRefBtn.current.link.click();
   };
 
+  // const [approval, setApproval] = useState([]);
+  // const setApproval1 = async () => {
+  //   const responseData = await axios.get(`/cartitems/all`);
+  //   const data = responseData.data;
+  //   setApproval(data.data);
+  // };
+
+  const [approval, setApproval] = useState([]);
+  useEffect(async () => {
+    const responseData = await axios.get(`/cartitems/all`);
+    const data = responseData.data;
+    setApproval(data.data);
+  }, []);
+
+  console.log(approval);
   return (
     <>
       <div className="container-scroller">
@@ -133,10 +148,28 @@ const Products = ({ match }) => {
                             </tr>
                           </thead>
                           <tbody>
-                            {orders.data.map((order) => (
-                              // <Order order={order} key={order._id} />
-                              <Approval order={order} key={order._id} />
-                            ))}
+                            {
+                              approval ?
+                                approval.map((item) => (
+                                  // <Order order={order} key={order._id} />
+                                  // <Approval order={order} key={order._id} />
+                                  <tr key={item._id}>
+                                    <td>{item._id}</td>
+                                    <td>{item.createdAt}</td>
+                                    <td>{item.totalPrice}</td>
+                                    <td>{item.isApproved ? "Approved" : "Not approved"}</td>
+                                    <td>
+                                      <Link to={`/approval/edit/${item._id}`} className="text-success" title="View">
+                                        <i className="fa fa-eye"></i>
+                                      </Link>
+                                      <Link to="#" title="Delete" >
+                                        <i className="fa fa-trash"></i>
+                                      </Link>
+                                    </td>
+                                  </tr>
+                                )) : <></>
+                            }
+
                           </tbody>
                         </table>
                       </div>
