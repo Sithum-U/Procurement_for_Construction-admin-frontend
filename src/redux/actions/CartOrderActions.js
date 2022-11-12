@@ -107,7 +107,7 @@ export const approveCartOrder = (orderId) => async (dispatch, getState) => {
         const response = await axios.put(
             `/cartitems/approved/${orderId}`
         );
-
+        console.log(response);
         const responseData = response.data;
 
         if (!responseData.success) {
@@ -116,7 +116,10 @@ export const approveCartOrder = (orderId) => async (dispatch, getState) => {
             toast.success(responseData.message, ToastObjects);
             dispatch({ type: CARTORDER_APPROVED_SUCCESS });
             dispatch({ type: CARTORDER_DETAILS_SUCCESS, payload: responseData });
-            localStorage.setItem("cartInfo", JSON.stringify(responseData));
+            console.log(response);
+            // localStorage.setItem("cartInfo", JSON.stringify(response));
+            localStorage.setItem("cartInfo", JSON.stringify(getState().cart.cartInfo));
+            
         }
 
 
